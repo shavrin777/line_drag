@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=4 uid="uid://d2ltggiw7ayjt"]
+
+[ext_resource type="Script" path="res://camera_3d.gd" id="1_34ckf"]
+[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="1_d54is"]
+[ext_resource type="Shader" path="res://lines.gdshader" id="1_mdo5q"]
+[ext_resource type="Shader" path="res://points.gdshader" id="2_y804j"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dwgok"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_yykdc"]
+sky_material = SubResource("ProceduralSkyMaterial_dwgok")
+
+[sub_resource type="Environment" id="Environment_yym7h"]
+background_mode = 2
+sky = SubResource("Sky_yykdc")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_78e01"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjhph"]
+render_priority = 0
+shader = ExtResource("1_mdo5q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_amq0p"]
+render_priority = 0
+shader = ExtResource("2_y804j")
+shader_parameter/point_size = null
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_vhg48"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("//////////////////////////////////////////8="),
+"format": 34359738377,
+"material": SubResource("ShaderMaterial_hjhph"),
+"primitive": 2,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/")
+}, {
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("//////////////////////////////////////////8="),
+"format": 34359738377,
+"material": SubResource("ShaderMaterial_amq0p"),
+"primitive": 0,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/")
+}]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, -1.20798e-07, 1.26408e-07, 0, 0.722967, 0.690882, -1.74846e-07, -0.690882, 0.722967, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yym7h")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.65678)
+script = ExtResource("1_34ckf")
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -2.877)
+mesh = SubResource("BoxMesh_78e01")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+mesh = SubResource("ArrayMesh_vhg48")
+skeleton = NodePath("../Cube")
+script = ExtResource("1_d54is")
